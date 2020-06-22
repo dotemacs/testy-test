@@ -1,12 +1,9 @@
 (ns crypto.main
-  (:require #_[reagent.core :as r]
-            [reagent.dom :as rdom]
+  (:require [reagent.dom :as rdom]
             [re-frame.core :as rf]
-            #_[clojure.string :as str]
             [crypto.events]
             [crypto.subs]
             ["ethers" :as ethers]
-            #_[goog.object :as g]
             [goog.string :as gstring]
             [goog.string.format]
             [crypto.erc20]
