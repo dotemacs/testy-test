@@ -1,0 +1,21 @@
+{:source-paths ["src"]
+
+ :dependencies [[cider/cider-nrepl "0.24.0"]
+                [reagent "0.10.0"]
+                [re-frame "0.12.0"]
+                [org.clojure/core.async "1.2.603"]]
+
+ :nrepl {:port 3333}
+
+ :builds {:app {:target     :browser
+                :output-dir "public/js"
+                :asset-path "/js"
+                :optimizations :whitespace
+                :modules
+                {:main
+                 {:entries [crypto.main]}}
+
+                :devtools
+                {:repl-init-ns crypto.main
+                 :http-root    "public"
+                 :http-port 3001}}}}
