@@ -35,10 +35,12 @@
   (js-invoke js/window.ethereum "enable"))
 
 
-(defn reload-page-when-metamask-accounts-change
-  []
+(defn populate-acount-info
+  "When account information is updated from MetaMask, grab account
+  info."
+  [provider]
   (.on js/window.ethereum "accountsChanged"
-       #(.reload js/location)))
+       #(rf/dispatch [:add-account (first %)])))
 
 
 (defn transact
@@ -89,8 +91,8 @@
 
 (defn ui
   []
-  (reload-page-when-metamask-accounts-change)
   (let [provider (new (.-Web3Provider (.-providers ethers)) (.-ethereum js/window))
+        _ (populate-acount-info provider)
         _ (-> (.listAccounts provider)
               (.then #(rf/dispatch [:add-account (first %)])))
         account (rf/subscribe [:account])]
