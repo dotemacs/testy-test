@@ -96,38 +96,39 @@
         _ (-> (.listAccounts provider)
               (.then #(rf/dispatch [:add-account (first %)])))
         account (rf/subscribe [:account])]
-    [:div
-     (if (nil? @account)
+    (fn []
+      [:div
+       (if (nil? @account)
+         [:div
+          [:button {:on-click #(enable-metamask)}
+           "Connect MetaMask"]]
+         (str "Account is: " @account))
        [:div
-        [:button {:on-click #(enable-metamask)}
-         "Connect MetaMask"]]
-       (str "Account is: " @account))
-     [:div
-      [:div
-       [:p "Deposit"]
-       [:input {:id "desposit"
-                :placeholder "deposit"
-                :on-change #(rf/dispatch [:deposit (-> % .-target .-value)])}]]
+        [:div
+         [:p "Deposit"]
+         [:input {:id "desposit"
+                  :placeholder "deposit"
+                  :on-change #(rf/dispatch [:deposit (-> % .-target .-value)])}]]
 
-      [:div
-       [:p "Recipient wallet"]
-       [:input {:id "recipient"
-                :placeholder "recipient"
-                :on-change #(rf/dispatch [:recipient-wallet (-> % .-target .-value str)])}]]
-      [:div
-       [:p "Start time"]
-       [:div "(Please enter is as epoch. e.g. 1595933400 for  July 28, 2020 10:50:00 AM GMT) "]
-       [:input {:id "start-time"
-                :placeholder "start time"
-                :on-change #(rf/dispatch [:start-time (-> % .-target .-value)])}]]
-      [:div
-       [:p "End time"]
-       [:div "(Please enter is as epoch. e.g. 1598611800 for August 28, 2020 10:50:00 AM GMT) "]
-       [:input {:id "end-time"
-                :placeholder "end time"
-                :on-change #(rf/dispatch [:end-time (-> % .-target .-value)])}]]
-      [:button {:on-click #(transact provider)}
-       "Submit"]]]))
+        [:div
+         [:p "Recipient wallet"]
+         [:input {:id "recipient"
+                  :placeholder "recipient"
+                  :on-change #(rf/dispatch [:recipient-wallet (-> % .-target .-value str)])}]]
+        [:div
+         [:p "Start time"]
+         [:div "(Please enter is as epoch. e.g. 1595933400 for  July 28, 2020 10:50:00 AM GMT) "]
+         [:input {:id "start-time"
+                  :placeholder "start time"
+                  :on-change #(rf/dispatch [:start-time (-> % .-target .-value)])}]]
+        [:div
+         [:p "End time"]
+         [:div "(Please enter is as epoch. e.g. 1598611800 for August 28, 2020 10:50:00 AM GMT) "]
+         [:input {:id "end-time"
+                  :placeholder "end time"
+                  :on-change #(rf/dispatch [:end-time (-> % .-target .-value)])}]]
+        [:button {:on-click #(transact provider)}
+         "Submit"]]])))
 
 
 (defn ^:dev/after-load start []
